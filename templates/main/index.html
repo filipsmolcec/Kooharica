@@ -42,7 +42,10 @@
                 <button type="submit">Logout</button>
             </form>
             {% if user.is_staff %}
-                <a href="admin/">Admin Panel</a>
+                <form action="{% url 'admin:index' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Admin Panel</button>
+                </form>
             {% endif %}
         {% else %}
             <a href="{% url 'login' %}">Login</a>
