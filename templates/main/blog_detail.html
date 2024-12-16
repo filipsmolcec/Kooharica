@@ -2,7 +2,7 @@
     <h2>{{ object.title }}</h2>
     <ul>
         <li>
-            Author: <a href="/korisnici/{{ object.author.pk }}">{{ object.author.username }}</a>
+            Author: <a href="{% url 'user_detail' pk=object.author.pk %}">{{ object.author.username }}</a>
         </li>
         <li>
             Posted: {{ object.date_posted }} Updated: {{ object.date_updated }}

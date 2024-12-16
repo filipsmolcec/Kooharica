@@ -18,7 +18,7 @@
     <ul>
         {% for review in reviews %}   
             <li>
-                <a href="/korisnici/{{ review.author.pk }}"><b>{{ review.author.username }}</b></a><br>
+                <a href="{% url 'user_detail' pk=review.author.pk %}"><b>{{ review.author.username }}</b></a><br>
                 Rating: {{ review.rating }}/5<br>
                 {{ review.comment }}
                 <br><br>

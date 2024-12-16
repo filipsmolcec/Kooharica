@@ -18,7 +18,7 @@
         {% endif %}
         {% for recipe in recipes %}
             <li>
-                <a href="/recepti/{{ recipe.pk }}">{{ recipe.title }}</a>
+                <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
             </li>
         {% endfor %}
     </ul>
