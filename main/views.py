@@ -7,11 +7,11 @@ from django.views.generic.detail import DetailView
 
 class AllRecipes(ListView):
     model = Recipe
-    template_name = "main/all_recipes.html"
+    template_name = "main/recipe_list.html"
 
 class AllBlogPosts(ListView):
     model = BlogPost
-    template_name = "main/all_blog_posts.html"
+    template_name = "main/blog_post_list.html"
 
 class RecipeDetail(DetailView):
     model = Recipe
@@ -21,6 +21,22 @@ class RecipeDetail(DetailView):
         context = super().get_context_data(**kwargs)
         self.recipe = Recipe.objects.get(pk=self.kwargs["pk"])
         context["reviews"] = Review.objects.filter(recipe=self.recipe)
+        return context
+
+class BlogDetail(DetailView):
+    model = BlogPost
+    template_name = "main/blog_detail.html"
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
+
+class UserDetail(DetailView):
+    model = User
+    template_name = "main/user_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        context["recipes"] = Recipe.objects.filter(author=self.kwargs["pk"])
         return context
 
 def index(request):

@@ -1,0 +1,12 @@
+{% block content %}
+    <h2>{{ object.title }}</h2>
+    <ul>
+        <li>
+            Author: <a href="/korisnici/{{ object.author.pk }}">{{ object.author.username }}</a>
+        </li>
+        <li>
+            Posted: {{ object.date_posted }} Updated: {{ object.date_updated }}
+        </li>
+    </ul>
+    {{ object.content }}<br><br>
+{% endblock %}

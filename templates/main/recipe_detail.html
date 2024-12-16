@@ -2,7 +2,7 @@
     <h2>{{ object.title }}</h2>
     <ul>
         <li>
-            Author: <a href="">{{ object.author.username }}</a>
+            Author: <a href="/korisnici/{{ object.author.pk }}">{{ object.author.username }}</a>
         </li>
         <li>
             Posted: {{ object.date_posted }} Updated: {{ object.date_updated }}
@@ -13,12 +13,16 @@
     </ul>
     {{ object.instructions }}<br><br>
 
-    <h2>Reviews</h2>
+    <h2>Recenzije</h2>
 
-    {% for review in reviews %}   
-        <b>{{ review.author.username }}</b><br>
-        Rating: {{ review.rating }}/5<br>
-        {{ review.comment }}
-        <br><br>
-    {% endfor %}
+    <ul>
+        {% for review in reviews %}   
+            <li>
+                <a href="/korisnici/{{ review.author.pk }}"><b>{{ review.author.username }}</b></a><br>
+                Rating: {{ review.rating }}/5<br>
+                {{ review.comment }}
+                <br><br>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -1,0 +1,25 @@
+{% block content %}
+    <h2>{{ object.username }}</h2>
+    <ul>
+        <li>
+            {{ object.first_name }} {{ object.last_name}}
+        </li>
+        <li>
+            Račun napravljen: {{ object.date_joined }}
+        </li>
+    </ul>
+
+    <h2>Recepti</h2>
+    <ul>
+        {% if recipes|length == 0 %}
+            <li>
+                Korisnik nema recepata.
+            </li>
+        {% endif %}
+        {% for recipe in recipes %}
+            <li>
+                <a href="/recepti/{{ recipe.pk }}">{{ recipe.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
