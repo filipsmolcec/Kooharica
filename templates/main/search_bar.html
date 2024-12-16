@@ -1,0 +1,6 @@
+{% block content %}
+    <form method="get" action="{% url url_name %}">
+        <input type="text" name="q" placeholder="Pretraži..." value="{{ request.GET.q }}">
+        <button type="submit">Pretraži</button>
+    </form>
+{% endblock %}

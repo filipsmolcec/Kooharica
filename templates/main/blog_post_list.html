@@ -1,5 +1,6 @@
 {% block content %}
     <h2>Blogovi</h2>
+    {% include 'main/search_bar.html' with url_name='blog_posts' %}
     <ul>
         {% for post in object_list %}
             <li>

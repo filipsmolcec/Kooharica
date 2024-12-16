@@ -10,20 +10,40 @@ class AllRecipes(ListView):
     model = Recipe
     template_name = "main/recipe_list.html"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get("q")
+        if query:
+            queryset = queryset.filter(title__icontains=query)
+        return queryset
+
 class BestRecipes(ListView):
     template_name = "main/recipe_list.html"
     
     def get_queryset(self):
         avg_ratings = Recipe.objects.annotate(avg_rating=Avg('review__rating'))
-        top_recipies = avg_ratings.order_by('-avg_rating')[:20]
+        top_recipies = avg_ratings.order_by('-avg_rating')
+
+        query = self.request.GET.get("q")
+        if query:
+            top_recipies = top_recipies.filter(title__icontains=query)
+        
         for recipe in top_recipies:
             if recipe.avg_rating is not None:
                 recipe.avg_rating = round(recipe.avg_rating, 2)
+        
         return top_recipies
 
 class AllBlogPosts(ListView):
     model = BlogPost
     template_name = "main/blog_post_list.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get("q")
+        if query:
+            queryset = queryset.filter(title__icontains=query)
+        return queryset
 
 class RecipeDetail(DetailView):
     model = Recipe

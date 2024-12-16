@@ -1,5 +1,11 @@
 {% block content %}
     <h2>Recepti</h2>
+    <!-- TODO: Maybe split best recipes and recipes into seperate files -->
+    {% if not object_list.0.avg_rating %}
+        {% include 'main/search_bar.html' with url_name='recipes' %}
+    {% else %}
+        {% include 'main/search_bar.html' with url_name='best_recipes' %}
+    {% endif %}
     <ol>
         {% for recipe in object_list %}
             <li>
