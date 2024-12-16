@@ -4,32 +4,19 @@ from django.core.management.base import BaseCommand
 from main.models import *
 from main.factories import *
 
-USERS_COUNT = 1
+USERS_COUNT = 100
 BLOG_POSTS_COUNT = 100
 RECIPIES_COUNT = 100
-REVIEWS_COUNT = 5000
+REVIEWS_COUNT = 1000
 
 class Command(BaseCommand):
     help = "Generates test data"
 
     @transaction.atomic
     def handle(self, *args, **kwargs):
-        self.stdout.write("Deleting old data...")
-        
-        #models = [Review]
-        #for m in models:
-        #    m.objects.all().delete()
-
         self.stdout.write("Creating new data...")
 
-        for _ in range(USERS_COUNT):
-            user = UserFactory()
-
-        for _ in range(BLOG_POSTS_COUNT):
-            blog = BlogPostFactory()
-
-        for _ in range(RECIPIES_COUNT):
-            recipe = RecipeFactory()
-        
-        for _ in range(REVIEWS_COUNT):
-            review = ReviewFactory()
+        users = UserFactory.create_batch(USERS_COUNT)
+        recipies = RecipeFactory.create_batch(RECIPIES_COUNT)
+        blogs = BlogPostFactory.create_batch(BLOG_POSTS_COUNT)
+        reviews = ReviewFactory.create_batch(REVIEWS_COUNT)

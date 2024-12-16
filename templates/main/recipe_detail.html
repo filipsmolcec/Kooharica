@@ -1,0 +1,24 @@
+{% block content %}
+    <h2>{{ object.title }}</h2>
+    <ul>
+        <li>
+            Author: <a href="">{{ object.author.username }}</a>
+        </li>
+        <li>
+            Posted: {{ object.date_posted }} Updated: {{ object.date_updated }}
+        </li>
+        <li>
+            Cook time: {{ object.cook_time_minutes }} Mins
+        </li>
+    </ul>
+    {{ object.instructions }}<br><br>
+
+    <h2>Reviews</h2>
+
+    {% for review in reviews %}   
+        <b>{{ review.author.username }}</b><br>
+        Rating: {{ review.rating }}/5<br>
+        {{ review.comment }}
+        <br><br>
+    {% endfor %}
+{% endblock %}

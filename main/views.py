@@ -1,5 +1,5 @@
 from .models import *
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.list import ListView
@@ -15,6 +15,13 @@ class AllBlogPosts(ListView):
 
 class RecipeDetail(DetailView):
     model = Recipe
+    template_name = "main/recipe_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.recipe = Recipe.objects.get(pk=self.kwargs["pk"])
+        context["reviews"] = Review.objects.filter(recipe=self.recipe)
+        return context
 
 def index(request):
     return render(request, "main/index.html")

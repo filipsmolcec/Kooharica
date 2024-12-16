@@ -1,4 +1,3 @@
-## factories.py
 import factory
 import random
 from factory.django import DjangoModelFactory
@@ -24,7 +23,7 @@ class BlogPostFactory(DjangoModelFactory):
 
     title = factory.Faker("sentence")
     content = factory.Faker("texts")
-    author = User.objects.all()[random.randint(0, User.objects.all().count()-1)]
+    author = factory.LazyFunction(lambda: User.objects.order_by('?').first() or UserFactory())
     date_posted = factory.Faker("date")
     date_updated = factory.Faker("date")
 
@@ -32,19 +31,19 @@ class RecipeFactory(DjangoModelFactory):
     class Meta:
         model = Recipe
 
-    title = factory.Faker("sentence")
-    instructions = factory.Faker("texts")
-    cook_time_minutes = random.randint(5, 100)
-    author = User.objects.all()[random.randint(0, User.objects.all().count()-1)]
-    date_posted = factory.Faker("date")
-    date_updated = factory.Faker("date")
+    title = factory.Faker('sentence', nb_words=6)
+    instructions = factory.Faker('paragraph', nb_sentences=16)
+    cook_time_minutes = factory.LazyFunction(lambda: random.randint(5, 120))
+    author = factory.LazyFunction(lambda: User.objects.order_by('?').first() or UserFactory())
+    date_posted = factory.Faker('date_time_this_year')
+    date_updated = factory.LazyAttribute(lambda obj: obj.date_posted)
 
 class ReviewFactory(DjangoModelFactory):
     class Meta:
         model = Review
 
-    recipe = Recipe.objects.all()[random.randint(0, Recipe.objects.all().count()-1)]
-    author = User.objects.all()[random.randint(0, User.objects.all().count()-1)]
-    rating = random.randint(1, 5)
-    comment = factory.Faker("sentences")
+    recipe = factory.LazyFunction(lambda: Recipe.objects.order_by('?').first() or RecipeFactory())
+    author = factory.LazyFunction(lambda: User.objects.order_by('?').first() or UserFactory())
+    rating = factory.LazyFunction(lambda: random.randint(1, 5))
+    comment = factory.Faker('paragraph', nb_sentences=3)
     date_posted = factory.Faker("date")
