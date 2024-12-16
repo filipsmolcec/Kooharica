@@ -26,7 +26,9 @@ class BestRecipes(ListView):
 
         query = self.request.GET.get("q")
         if query:
-            top_recipies = top_recipies.filter(title__icontains=query)
+            top_recipies = top_recipies.filter(title__icontains=query)[:20]
+        else:
+            top_recipies = top_recipies[:20]
         
         for recipe in top_recipies:
             if recipe.avg_rating is not None:
