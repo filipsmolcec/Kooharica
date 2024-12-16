@@ -2,10 +2,13 @@
     <h2>{{ object.title }}</h2>
     <ul>
         <li>
-            Author: <a href="{% url 'user_detail' pk=object.author.pk %}">{{ object.author.username }}</a>
+            Autor: <a href="{% url 'user_detail' pk=object.author.pk %}">{{ object.author.username }}</a>
         </li>
         <li>
-            Posted: {{ object.date_posted }} Updated: {{ object.date_updated }}
+            Objavljeno: {{ object.date_posted }}
+        </li>
+        <li>
+            Posljedni put ažurirano: {{ object.date_updated }}
         </li>
     </ul>
     {{ object.content }}<br><br>

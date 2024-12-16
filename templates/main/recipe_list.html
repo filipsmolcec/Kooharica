@@ -1,10 +1,15 @@
 {% block content %}
     <h2>Recepti</h2>
-    <ul>
+    <ol>
         {% for recipe in object_list %}
             <li>
                 <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
-            </li>
+                {% if recipe.avg_rating %}
+                    <br>
+                    Prosječna ocjena: {{ recipe.avg_rating }}/5
+                    <br><br>
+                {% endif %}
+            </li>    
         {% endfor %}
-    </ul>
+    </ol>
 {% endblock %}

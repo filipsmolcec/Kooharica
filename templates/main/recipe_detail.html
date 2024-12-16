@@ -2,13 +2,19 @@
     <h2>{{ object.title }}</h2>
     <ul>
         <li>
-            Author: <a href="/korisnici/{{ object.author.pk }}">{{ object.author.username }}</a>
+            Autor: <a href="/korisnici/{{ object.author.pk }}">{{ object.author.username }}</a>
         </li>
         <li>
-            Posted: {{ object.date_posted }} Updated: {{ object.date_updated }}
+            Objavljeno: {{ object.date_posted }} 
         </li>
         <li>
-            Cook time: {{ object.cook_time_minutes }} Mins
+            Posljedni put ažurirano: {{ object.date_updated }}
+        </li>
+        <li>
+            Vrijeme kuhanja: {{ object.cook_time_minutes }} Minuta
+        </li>
+        <li>
+            Prosječna ocjena: {{ avg_rating }}/5
         </li>
     </ul>
     {{ object.instructions }}<br><br>
