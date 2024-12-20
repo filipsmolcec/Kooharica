@@ -124,8 +124,6 @@ def recipe_update(request, pk):
         form = RecipeForm(request.POST, instance=recipe)
         if form.is_valid():
             entry = form.save(commit=False)
-            entry.author = request.user
-            entry.date_posted = timezone.now()
             entry.date_updated = timezone.now()
             entry.save()
             return redirect('recipe_detail', pk=entry.pk)
@@ -166,8 +164,6 @@ def blog_update(request, pk):
         form = BlogPostForm(request.POST, instance=blog)
         if form.is_valid():
             entry = form.save(commit=False)
-            entry.author = request.user
-            entry.date_posted = timezone.now()
             entry.date_updated = timezone.now()
             entry.save()
             return redirect('blog_detail', pk=entry.pk)
