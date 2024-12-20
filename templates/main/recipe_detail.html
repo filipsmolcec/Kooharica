@@ -25,6 +25,25 @@
 
     <h2>Recenzije</h2>
 
+    {% if user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            <label for="rating">Ocjena:</label>
+            <select name="rating" id="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select><br>
+            <label for="comment">Komentar:</label><br>
+            <textarea style="width: 80%" name="comment" id="comment" cols="30" rows="10"></textarea><br>
+            <button type="submit">Pošalji</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Prijavi se</a> da bi ostavio recenziju.
+    {% endif %}
+
     <ul>
         {% for review in reviews %}   
             <li>

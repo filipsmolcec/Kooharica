@@ -61,6 +61,16 @@ class RecipeDetail(DetailView):
         context["avg_rating"] = round(average_rating, 2) if average_rating is not None else 5
         return context
 
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        
+        recipe = Recipe.objects.get(pk=self.kwargs["pk"])
+        rating = request.POST.get("rating")
+        comment = request.POST.get("comment")
+        Review.objects.create(recipe=recipe, author=request.user, rating=rating, comment=comment, date_posted=timezone.now())
+        return redirect('recipe_detail', pk=recipe.pk)
+
 class BlogDetail(DetailView):
     model = BlogPost
     template_name = "main/blog_detail.html"
