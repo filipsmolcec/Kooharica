@@ -1,4 +1,4 @@
-from main.forms import RecipeForm
+from main.forms import BlogPostForm, RecipeForm
 from .models import *
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login
@@ -139,3 +139,45 @@ def recipe_delete(request, pk):
         recipe.delete()
         return redirect('recipes')
     return render(request, 'main/confirm_delete.html', {'object': recipe, 'redirect': reverse('recipes')})
+
+def blog_create(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    if request.method == 'POST':
+        form = BlogPostForm(request.POST)
+
+        if form.is_valid():
+            entry = form.save(commit=False)
+            entry.author = request.user
+            entry.date_posted = timezone.now()
+            entry.date_updated = timezone.now()
+            entry.save()
+            return redirect('blog_detail', pk=entry.pk)
+    else:
+        form = BlogPostForm()
+
+    context = {'form': form}
+    return render(request, 'main/form.html', context)
+
+def blog_update(request, pk):
+    blog = get_object_or_404(BlogPost, pk=pk)
+    if request.method == 'POST':
+        form = BlogPostForm(request.POST, instance=blog)
+        if form.is_valid():
+            entry = form.save(commit=False)
+            entry.author = request.user
+            entry.date_posted = timezone.now()
+            entry.date_updated = timezone.now()
+            entry.save()
+            return redirect('blog_detail', pk=entry.pk)
+    else:
+        form = BlogPostForm(instance=blog)
+    return render(request, 'main/form.html', {'form': form})
+
+def blog_delete(request, pk):
+    blog = get_object_or_404(BlogPost, pk=pk)
+    if request.method == 'POST':
+        blog.delete()
+        return redirect('blog_posts')
+    return render(request, 'main/confirm_delete.html', {'object': blog, 'redirect': reverse('blog_posts')})
