@@ -1,5 +1,7 @@
 {% block content %}
     <h2>Recepti</h2>
+    <button><a href="{% url 'recipe_create' %}">Izradi recept</a></button>
+    <br><br>
     <!-- TODO: Maybe split best recipes and recipes into seperate files -->
     {% if not object_list.0.avg_rating %}
         {% include 'main/search_bar.html' with url_name='recipes' %}

@@ -1,10 +1,12 @@
+from main.forms import RecipeForm
 from .models import *
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login
 from django.db.models import Avg
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.urls import reverse
 
 class AllRecipes(ListView):
     model = Recipe
@@ -95,3 +97,45 @@ def register(request):
     
     context = {'form': form}
     return render(request, 'registration/register.html', context)
+
+def recipe_create(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    if request.method == 'POST':
+        form = RecipeForm(request.POST)
+
+        if form.is_valid():
+            entry = form.save(commit=False)
+            entry.author = request.user
+            entry.date_posted = timezone.now()
+            entry.date_updated = timezone.now()
+            entry.save()
+            return redirect('recipe_detail', pk=entry.pk)
+    else:
+        form = RecipeForm()
+
+    context = {'form': form}
+    return render(request, 'main/form.html', context)
+
+def recipe_update(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk)
+    if request.method == 'POST':
+        form = RecipeForm(request.POST, instance=recipe)
+        if form.is_valid():
+            entry = form.save(commit=False)
+            entry.author = request.user
+            entry.date_posted = timezone.now()
+            entry.date_updated = timezone.now()
+            entry.save()
+            return redirect('recipe_detail', pk=entry.pk)
+    else:
+        form = RecipeForm(instance=recipe)
+    return render(request, 'main/form.html', {'form': form})
+
+def recipe_delete(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk)
+    if request.method == 'POST':
+        recipe.delete()
+        return redirect('recipes')
+    return render(request, 'main/confirm_delete.html', {'object': recipe, 'redirect': reverse('recipes')})

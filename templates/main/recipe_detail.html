@@ -1,4 +1,9 @@
 {% block content %}
+    <!-- If the user is the author of the recipe, show the edit and delete buttons -->
+    {% if object.author == user or user.is_staff %}
+        <button><a href="update/">Uredi</a></button>
+        <button><a href="delete/">Izbriši</a></button>
+    {% endif %}
     <h2>{{ object.title }}</h2>
     <ul>
         <li>

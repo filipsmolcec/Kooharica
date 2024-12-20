@@ -1,0 +1,7 @@
+<h1>Potvrdi radnju</h1>
+<p>Jeste li sigurni da želite obrisati "{{ object.title }}"?</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Da, izbriši</button>
+</form>
+<button><a href="{{ redirect }}">Ne</a></button>
