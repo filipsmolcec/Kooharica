@@ -9,10 +9,10 @@
     <strong>Autor:</strong> <a href="{% url 'user_detail' pk=object.author.pk %}" class="text-decoration-none">{{ object.author.username }}</a>
     </li>
     <li class="list-group-item">
-    <strong>Objavljeno:</strong> {{ object.date_posted }}
+    <strong>Objavljeno:</strong> {{ object.date_posted|date:"d M Y" }}
     </li>
     <li class="list-group-item">
-    <strong>Posljedni put ažurirano:</strong> {{ object.date_updated }}
+    <strong>Posljedni put ažurirano:</strong> {{ object.date_updated|date:"d M Y" }}
     </li>
 </ul>
 <div class="mb-3 p-3" style="border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">

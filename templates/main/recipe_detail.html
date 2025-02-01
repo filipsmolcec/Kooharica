@@ -9,10 +9,10 @@
     <strong>Autor:</strong> <a href="{% url 'user_detail' pk=object.author.pk %}" class="text-decoration-none">{{ object.author.username }}</a>
     </li>
     <li class="list-group-item">
-    <strong>Objavljeno:</strong> {{ object.date_posted }}
+    <strong>Objavljeno:</strong> {{ object.date_posted|date:"d M Y" }}
     </li>
     <li class="list-group-item">
-    <strong>Posljedni put ažurirano:</strong> {{ object.date_updated }}
+    <strong>Posljedni put ažurirano:</strong> {{ object.date_updated|date:"d M Y" }}
     </li>
     <li class="list-group-item">
     <strong>Vrijeme kuhanja:</strong> {{ object.cook_time_minutes }} Minuta
@@ -77,7 +77,7 @@
                 </span>
             </div>
             <p class="mt-2" style="font-size: 0.9em; color: #6c757d; margin-bottom: 0;">
-                <i class="bi bi-calendar"></i> {{ review.date_posted }}
+                <i class="bi bi-calendar"></i> {{ review.date_posted|date:"d M Y" }}
             </p>
             {% if review.comment %}
                 <p class="mt-2">{{ review.comment }}</p>
