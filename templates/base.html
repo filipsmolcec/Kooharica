@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="hr">
 <head>
@@ -11,7 +13,9 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Kooharica</a>
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'images/logo_kooharica.png' %}" alt="Kooharica" class="d-inline-block align-text-top" height="30">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -23,14 +27,14 @@
                                 <i class="bi bi-person-circle"></i> {{ user.username }}
                             </a>
                         </li>
-                        <li class="nav-item me-1"></li>
+                        <li class="nav-item me-1">
                             <form action="{% url 'logout' %}" method="post" style="display: inline;">
                                 {% csrf_token %}
                                 <button class="btn btn-primary btn-sm" role="button" type="submit">Odjava</button>
                             </form>
                         </li>
                         {% if user.is_staff %}
-                            <li class="nav-item me-1"></li>
+                            <li class="nav-item me-1">
                                 <form action="{% url 'admin:index' %}" method="post" style="display: inline;">
                                     {% csrf_token %}
                                     <button class="btn btn-secondary btn-sm" role="button" type="submit">Admin Panel</button>
@@ -39,7 +43,7 @@
                         {% endif %}
                     {% else %}
                         <li class="nav-item me-1">
-                            <a href="{% url 'login' %}" class="btn btn-primary btn-sm active" role="button">Prijava</a>
+                            <a href="{% url 'login' %}" class="btn btn-primary btn-sm" role="button">Prijava</a>
                         </li>
                         <li class="nav-item me-1">
                             <a href="{% url 'register' %}" class="btn btn-secondary btn-sm active" role="button">Izrada računa</a>

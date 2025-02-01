@@ -58,6 +58,8 @@ class RecipeDetail(DetailView):
         context["reviews"] = Review.objects.filter(recipe=self.recipe)
         average_rating = context["reviews"].aggregate(avg_rating=Avg('rating'))['avg_rating']
         context["avg_rating"] = round(average_rating, 2) if average_rating is not None else 5
+        if self.request.user.is_authenticated:
+            context["user_has_reviewed"] = Review.objects.filter(recipe=self.recipe, author=self.request.user).exists()
         return context
 
     def post(self, request, *args, **kwargs):

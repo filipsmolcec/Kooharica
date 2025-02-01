@@ -39,33 +39,46 @@
 
 <h2 class="mb-4">Recenzije</h2>
 
-{% if user.is_authenticated %}
-<form method="POST" class="mb-4">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label for="rating" class="form-label">Ocjena:</label>
-        <select name="rating" id="rating" class="form-select" style="width: 100%;">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="comment" class="form-label">Komentar:</label>
-        <textarea name="comment" id="comment" cols="30" rows="5" class="form-control" style="width: 100%;"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Pošalji</button>
-</form>
-{% else %}
-<div class="alert alert-info" role="alert">
-    <a href="{% url 'login' %}" class="alert-link">Prijavi se</a> da bi ostavio recenziju.
-</div>
+{% if user != object.author %}
+    {% if user.is_authenticated and not user_has_reviewed %}
+        <form method="POST" class="mb-4">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="rating" class="form-label">Ocjena:</label>
+                <select name="rating" id="rating" class="form-select" style="width: 100%;">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="comment" class="form-label">Komentar:</label>
+                <textarea name="comment" id="comment" cols="30" rows="5" class="form-control" style="width: 100%;"></textarea>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-send"></i> Pošalji
+                </button>
+            </div>
+        </form>
+    {% elif user.is_authenticated and user_has_reviewed %}
+        <div class="alert alert-info" role="alert">
+            Već ste ostavili recenziju.
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            <a href="{% url 'login' %}" class="alert-link">Prijavite se</a> da bi ostavili recenziju.
+        </div>
+    {% endif %}
 {% endif %}
-<hr>
-<br>
 <div class="row"></div>
+    {% if reviews|length == 0 %}
+        <div class="alert alert-info" role="alert">
+            Nema recenzija.
+        </div>
+    {% endif %}
     {% for review in reviews %}   
         <div class="col-md-12" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: #f9f9f9;">
             <div class="d-flex justify-content-between align-items-center">
