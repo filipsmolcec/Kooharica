@@ -1,21 +1,25 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<div class="p-3 mb-2">
-    <h2>{{ object.title }}</h2>
-    <ul>
-        <li>
-            Autor: <a href="{% url 'user_detail' pk=object.author.pk %}">{{ object.author.username }}</a>
-        </li>
-        <li>
-            Objavljeno: {{ object.date_posted }}
-        </li>
-        <li>
-            Posljedni put ažurirano: {{ object.date_updated }}
-        </li>
-    </ul>
-    {{ object.content }}<br><br>
-    {% if object.author == user or user.is_staff %}
-        <a href="update/" class="btn btn-sm btn-primary">Uredi</a>
-        <a href="delete/" class="btn btn-sm btn-danger">Izbriši</a>
-    {% endif %}
+{% extends 'base.html' %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">{{ object.title }}</h2>
+<ul class="list-group mb-3">
+    <li class="list-group-item">
+    <strong>Autor:</strong> <a href="{% url 'user_detail' pk=object.author.pk %}" class="text-decoration-none">{{ object.author.username }}</a>
+    </li>
+    <li class="list-group-item">
+    <strong>Objavljeno:</strong> {{ object.date_posted }}
+    </li>
+    <li class="list-group-item">
+    <strong>Posljedni put ažurirano:</strong> {{ object.date_updated }}
+    </li>
+</ul>
+<div class="mb-3 p-3" style="border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+    <p style="text-align: justify;">{{ object.content }}</p>
 </div>
+{% if object.author == user or user.is_staff %}
+    <a href="update/" class="btn btn-sm btn-primary">Uredi</a>
+    <a href="delete/" class="btn btn-sm btn-danger">Izbriši</a>
+{% endif %}
+{% endblock %}

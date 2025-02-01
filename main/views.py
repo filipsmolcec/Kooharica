@@ -3,6 +3,7 @@ from .models import *
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login
 from django.db.models import Avg
+from django.db.models.functions import Round
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -13,28 +14,26 @@ class AllRecipes(ListView):
     template_name = "main/recipe_list.html"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = Recipe.objects.annotate(avg_rating=Round(Avg('review__rating'), 2))
         query = self.request.GET.get("q")
         if query:
             queryset = queryset.filter(title__icontains=query)
+
+        queryset = queryset.order_by('-avg_rating')
         return queryset
 
 class BestRecipes(ListView):
     template_name = "main/recipe_list.html"
     
     def get_queryset(self):
-        avg_ratings = Recipe.objects.annotate(avg_rating=Avg('review__rating'))
+        avg_ratings = Recipe.objects.annotate(avg_rating=Round(Avg('review__rating'), 2))
         top_recipies = avg_ratings.order_by('-avg_rating')
 
         query = self.request.GET.get("q")
         if query:
             top_recipies = top_recipies.filter(title__icontains=query)[:20]
         else:
-            top_recipies = top_recipies[:20]
-        
-        for recipe in top_recipies:
-            if recipe.avg_rating is not None:
-                recipe.avg_rating = round(recipe.avg_rating, 2)
+            top_recipies = top_recipies[:20]        
         
         return top_recipies
 
@@ -83,8 +82,10 @@ class UserDetail(DetailView):
     template_name = "main/user_detail.html"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs) 
+        context = super().get_context_data(**kwargs)
+        context["user"] = self.request.user
         context["recipes"] = Recipe.objects.filter(author=self.kwargs["pk"])
+        context["blogs"] = BlogPost.objects.filter(author=self.kwargs["pk"])
         return context
 
 def index(request):

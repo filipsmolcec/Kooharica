@@ -1,25 +1,32 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<div class="col p-3 mb-2">
-    <h2>Recepti</h2>
-    <!-- TODO: Maybe split best recipes and recipes into seperate files -->
-    {% if not object_list.0.avg_rating %}
-        {% include 'main/search_bar.html' with url_name='recipes' %}
-        <a href="{% url 'recipe_create' %}" class="btn btn-sm btn-primary">+ Izradi recept</a>
-        <br><br>
-    {% else %}
-        {% include 'main/search_bar.html' with url_name='best_recipes' %}
-    {% endif %}
-    <ol>
-        {% for recipe in object_list %}
-            <li>
-                <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
-                {% if recipe.avg_rating %}
-                    <br>
-                    Prosječna ocjena: {{ recipe.avg_rating }}/5
-                    <br><br>
-                {% endif %}
-            </li>    
-        {% endfor %}
-    </ol>
+{% extends 'base.html' %}
+
+{% block title %}Recepti{% endblock %}
+
+{% block content %}
+<h2>Recepti</h2>
+<!-- TODO: Maybe split best recipes and recipes into seperate files -->
+{% include 'main/search_bar.html' with url_name='recipes' %}
+<br>
+<a href="{% url 'recipe_create' %}" class="btn btn-sm btn-primary btn-block w-100 py-3">
+    <i class="bi bi-plus-circle"></i> Izradi recept
+</a>
+<br><br>
+<div>
+    {% for recipe in object_list %}
+        <div class="recipe-item card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="{% url 'recipe_detail' pk=recipe.pk %}" style="text-decoration: none;">{{ recipe.title }}</a>
+                </h5>
+                <span class="badge bg-primary">
+                    {% if recipe.avg_rating %}
+                        <i class="bi bi-star-fill"></i> {{ recipe.avg_rating }}/5
+                    {% else %}
+                        <i class="bi bi-star-fill"></i> 5/5
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    {% endfor %}
 </div>
+{% endblock %}

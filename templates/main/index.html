@@ -1,46 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kooharica</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</head>
-<body>
-    <div class="row p-3 mb-2">
-        <div class="col-8">
-            <h1>Kooharica</h1>
-            <ul>
-                <li>
-                    <a href="{% url 'recipes' %}">Recepti</a>
-                </li>
-                <li>
-                    <a href="{% url 'best_recipes' %}">20 najboljih recepata</a>
-                </li>
-                <li>
-                    <a href="{% url 'blog_posts' %}">Blogovi</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-4 text-end">
-            {% if user.is_authenticated %}
-                <span>Vaše ime: {{ user.username }}</span>
-                <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <button class="btn btn-primary btn-sm" role="button" type="submit">Odjava</button>
-                </form>
-                {% if user.is_staff %}
-                    <form action="{% url 'admin:index' %}" method="post" style="display: inline;">
-                        {% csrf_token %}
-                        <button class="btn btn-secondary btn-sm" role="button" type="submit">Admin Panel</button>
-                    </form>
-                {% endif %}
-            {% else %}
-                <a href="{% url 'login' %}" class="btn btn-primary btn-sm active" role="button">Prijava</a>
-                <a href="{% url 'register' %}" class="btn btn-secondary btn-sm active" role="button">Izrada računa</a>
-            {% endif %}
+{% extends 'base.html' %}
+
+{% block title %}Početak{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Dobrodošli na Kooharicu!</h1>
+            <p>Kooharica je mjesto gdje možete dijeliti svoje omiljene recepte i blog objave o kuhanju. Pridružite se našoj zajednici i otkrijte nove kulinarske ideje!</p>
         </div>
     </div>
-</body>
-</html>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+        <div class="border rounded p-3">
+            <a href="{% url 'recipes' %}" style="text-decoration: none;"><h2>Recepti</h2></a>
+            <p>Podijelite svoje najbolje recepte i pronađite inspiraciju za sljedeći obrok.</p>
+        </div>
+        </div>
+        <div class="col-md-4">
+        <div class="border rounded p-3">
+            <a href="{% url 'best_recipes' %}" style="text-decoration: none;"><h2>Recepti Tjedna</h2></a>
+            <p>Pogledajte našu kolekciju najboljih recepata koje su odabrali naši korisnici.</p>
+        </div>
+        </div>
+        <div class="col-md-4">
+        <div class="border rounded p-3">
+            <a href="{% url 'blog_posts' %}" style="text-decoration: none;"><h2>Blogovi</h2></a>
+            <p>Čitajte zanimljive blog objave o kuhanju, tehnikama i savjetima od naših članova.</p>
+        </div>
+        </div>
+    </div>
+{% endblock %}
