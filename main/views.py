@@ -1,3 +1,4 @@
+from django.views import View
 from main.forms import BlogPostForm, RecipeForm
 from .models import *
 from django.shortcuts import get_object_or_404, redirect, render
@@ -8,6 +9,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.urls import reverse
+
+class HomePage(View):
+    def get(self, request):
+        return render(request, "main/index.html")
 
 class AllRecipes(ListView):
     model = Recipe
@@ -89,9 +94,6 @@ class UserDetail(DetailView):
         context["recipes"] = Recipe.objects.filter(author=self.kwargs["pk"])
         context["blogs"] = BlogPost.objects.filter(author=self.kwargs["pk"])
         return context
-
-def index(request):
-    return render(request, "main/index.html")
 
 def register(request):
     if request.method == 'POST':

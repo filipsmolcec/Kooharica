@@ -10,13 +10,27 @@
     <div class="card-body">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                <strong><i class="bi bi-person-circle"></i> Ime:</strong> {{ object.first_name }} {{ object.last_name }}
+                <i class="bi bi-person-circle"></i> 
+                <strong>Ime:</strong>
+                {% if object.first_name %}
+                    {{ object.first_name }} {{ object.last_name }}
+                {% else %}
+                    <em>Nije uneseno.</em>
+                {% endif %}
             </li>
             <li class="list-group-item">
-                <strong><i class="bi bi-envelope"></i> E-Pošta:</strong> {{ object.email }}
+                <i class="bi bi-envelope"></i> 
+                <strong>E-Pošta:</strong>
+                {% if object.email %}
+                    {{ object.email }}
+                {% else %}
+                    <em>Nije uneseno.</em>
+                {% endif %}
             </li>
             <li class="list-group-item">
-                <strong><i class="bi bi-calendar"></i> Račun napravljen:</strong> {{ object.date_joined|date:"d M Y" }}
+                <i class="bi bi-calendar"></i> 
+                <strong>Račun napravljen:</strong> 
+                {{ object.date_joined|date:"d M Y" }}
             </li>
         </ul>
     </div>
