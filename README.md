@@ -25,6 +25,7 @@ source env/bin/activate  # Na Windowsu: env\Scripts\activate
 ```
 python -m pip install Django
 python -m pip install factory_boy
+python -m pip install djangorestframework
 ```
 
 # Licenca
