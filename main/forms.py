@@ -4,13 +4,11 @@ from .models import *
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['title', 'instructions', 'cook_time_minutes',
-                  'author', 'date_posted', 'date_updated']
+        fields = '__all__'
         exclude = ['author', 'date_posted', 'date_updated']
 
 class BlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
-        field = ['title', 'content', 'author',
-                 'date_posted', 'date_updated']
+        field = '__all__'
         exclude = ['author', 'date_posted', 'date_updated']
