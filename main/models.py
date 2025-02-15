@@ -21,7 +21,7 @@ class Recipe(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
+    def  __str__(self):
         return self.title
     
 class Review(models.Model):
